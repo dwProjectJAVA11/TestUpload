@@ -458,12 +458,7 @@ public class Note extends JFrame implements ActionListener {
 
 	private void setTitle()
 	{
-		// this is FirstUpdate
-	}
-	
-	public void isTest()
-	{
-		
+
 	}
 
 	public void open()
@@ -496,6 +491,7 @@ public class Note extends JFrame implements ActionListener {
 				}
 
 				else if (retVal == 2) return;	// option 2: 저장 안 함
+
 			}
 		}
 		// 내용이 없는 경우
@@ -505,6 +501,7 @@ public class Note extends JFrame implements ActionListener {
 			return;
 		}
 	}
+
 	private void fileOpen()
 	{
 		// 열기 버튼을 클릭시
@@ -537,7 +534,9 @@ public class Note extends JFrame implements ActionListener {
 		{// 취소 버튼 클릭 시 파일 열기 창 닫기
 			return;
 		}
+
 		return;
+
 	}
 
 	// 저장 버튼 클릭 시
