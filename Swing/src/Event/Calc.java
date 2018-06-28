@@ -1,0 +1,101 @@
+package Event;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JSplitPane;
+import javax.swing.JLayeredPane;
+import javax.swing.JSeparator;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+import java.awt.TextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Calc extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField FieldInsert;
+	private JLabel LabelPercent;
+	private JTextField FieldPercent;
+	private JButton btnTrans;
+	private JTextField result;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					Calc frame = new Calc();
+					frame.setVisible(true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Calc()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel LabelInsert = new JLabel("원금을 입력하세요");
+		contentPane.add(LabelInsert);
+		
+		FieldInsert = new JTextField();
+		contentPane.add(FieldInsert);
+		FieldInsert.setColumns(10);
+		
+		LabelPercent = new JLabel("이율을 입력하세요");
+		contentPane.add(LabelPercent);
+		
+		FieldPercent = new JTextField();
+		contentPane.add(FieldPercent);
+		FieldPercent.setColumns(10);
+		
+		btnTrans = new JButton("변환");
+		btnTrans.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// 원금 가져오기
+				int money = Integer.parseInt(FieldInsert.getText());
+						
+				// 이율 가져오기
+				double income = Double.parseDouble(FieldPercent.getText());
+						
+				// 
+				Integer m2 = (int)(money+(money*(income/100)));
+				result.setText(m2+"");
+			}
+		});
+		contentPane.add(btnTrans);
+		
+		result = new JTextField();
+		contentPane.add(result);
+		result.setColumns(10);
+		
+		
+	}
+
+}

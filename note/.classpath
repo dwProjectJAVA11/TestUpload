@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/JTattoo-1.6.11.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/synthetica.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaBlackEye.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaBlackMoon.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaBlueIce.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaBlueMoon.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaBlueSteel.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaMauveMetallic.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaSilverMoon.jar"/>
+	<classpathentry kind="lib" path="D:/JavaSource/swing_gui_library/syntheticaSkyMetallic.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

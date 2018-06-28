@@ -1,0 +1,90 @@
+package JListTest;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.util.Vector;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.JList;
+
+public class JListTest2 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					JListTest2 frame = new JListTest2();
+					frame.setVisible(true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JListTest2()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		Vector<String> v = new Vector<>();
+		v.add("런던");
+		v.add("파리");
+		v.add("시드니");
+		v.add("서울");
+		v.add("도쿄");
+		
+		// 또는 배열로
+		
+		String listPet[] = {"강아지","고양이","햄스터","토끼","병아리"};
+		
+		// 또는 DefaultList Model
+		DefaultListModel<String> listModel = new DefaultListModel<>();
+		listModel.addElement("코알라");
+		listModel.addElement("햄스터");
+		listModel.addElement("고양이");
+		listModel.addElement("다람쥐");
+		listModel.addElement("병아리");
+		listModel.addElement("호랑이");
+		listModel.addElement("토끼");
+		
+		JList list = new JList(listPet);		// 생성자에 원하는 타입을 넣는다.
+		//JList list2 = new JList(v);	
+		//JList list3 = new JList(listModel);	
+	
+		contentPane.add(list, BorderLayout.CENTER);
+		
+		// 이벤트 걸기
+		list.addListSelectionListener(new ListSelectionListener()
+		{
+			@Override
+			public void valueChanged(ListSelectionEvent e)
+			{
+				System.out.println(list.getSelectedValue());
+			}
+		});
+	}
+
+}

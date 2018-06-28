@@ -1,0 +1,80 @@
+package Event;
+
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.EventQueue;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Ketpad2 extends JFrame implements ActionListener{
+
+	private JPanel contentPane;
+	
+	// JButton을 담을 수 있는 배열 선ㅇㄴ,저장
+	private JButton[] btn = new JButton[9];
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					Ketpad2 frame = new Ketpad2();
+					frame.setVisible(true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ketpad2()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(0,3,0,0));
+		
+
+		// JBUtton 객체 생성 후 배열 초기화
+		for(int i =0;i<btn.length;i++) {
+			btn[i] = new JButton((i+1)+"");
+			btn[i].addActionListener(this);
+			panel.add(btn[i]);
+		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+	//	textField.getText()
+	}
+
+}

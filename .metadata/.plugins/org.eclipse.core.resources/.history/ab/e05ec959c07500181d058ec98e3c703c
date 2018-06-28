@@ -1,0 +1,76 @@
+package User2;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+
+public class JListUser extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					JListUser frame = new JListUser();
+					frame.setVisible(true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JListUser()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JScrollPane scrollpane = new JScrollPane();
+		scrollpane.add(scrollpane, BorderLayout.CENTER);
+		
+		Vector<UserVO> user = showlist();
+		
+		// user가 가지고 있는 데이터 중에서 name만 JList에 보여주력호함
+		
+		// name을 담을 배열 생성
+		String name[] = new String[user.size()];
+		
+		// Vector에서 name을 하나씩 꺼내서 배열에 담기
+		for(int i=0;i<user.size();i++)
+		{
+			name[i] = user.get(i).getName();
+		}
+		
+		JList list = new JList(name);
+		scrollpane.setViewportView(list);
+	
+	}
+
+	private Vector<UserVO> showlist()
+	{
+		UserDAO dao = new UserDAO();
+		return dao.getUsers();
+	}
+}

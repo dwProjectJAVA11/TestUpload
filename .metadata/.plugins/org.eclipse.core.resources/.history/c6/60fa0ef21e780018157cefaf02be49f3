@@ -1,0 +1,84 @@
+package JListTest;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JTextField;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class JFileChooserTest2 extends JFrame implements ActionListener{
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JFileChooser file;
+	private JButton btnOpen,btnSave;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFileChooserTest2 frame = new JFileChooserTest2();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFileChooserTest2() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.NORTH);
+		
+		btnOpen = new JButton("open");
+		btnOpen.setFont(new Font("굴림", Font.PLAIN, 18));
+		panel.add(btnOpen);
+		
+		btnSave = new JButton("save");
+		btnSave.setFont(new Font("굴림", Font.PLAIN, 18));
+		panel.add(btnSave);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("굴림", Font.PLAIN, 16));
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		btnOpen.addActionListener(this);
+		btnSave.addActionListener(this);
+		
+		file=new JFileChooser();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton btn=(JButton)e.getSource();
+		//JFileChooser 를 열고 사용자가 선택한 파일의 경로 가져오기
+		if(btn==btnOpen) { 
+			file.showOpenDialog(this);
+		}else {
+			
+		}
+		
+	}
+
+}

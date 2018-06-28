@@ -1,0 +1,17 @@
+package Reference;
+
+public class StringEx {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String str = null;		// 참조변수 초기화
+		str = "안녕하세요.";		// 참조변수 값 할당
+		System.out.println(str.length());
+		
+		
+		
+		
+	
+	}
+}

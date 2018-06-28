@@ -1,0 +1,3 @@
+select * from userTBL;
+
+select * from userTBL where no =3;

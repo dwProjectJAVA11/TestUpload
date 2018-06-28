@@ -1,0 +1,12 @@
+create table MemberTBL(
+	idx int auto_increment primary key,
+	name varchar not null,
+	age int not null,
+	gender varchar noy null
+)
+
+select * from MemberTBL;
+select * from MemberTBL where id =1;
+select * from MemberTBL where like '홍%'	--> 홍 으로 시작하는 홍% %홍%
+
+-- 자리 수가 정해뎌있는 경우는 _사용 한 _당 한 자리

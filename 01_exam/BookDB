@@ -1,0 +1,20 @@
+select * from bookTBL;
+
+delete from bookTBL where book_id = 13;
+
+create table bookTBL(
+	book_id int not null auto_increment,
+	title varchar(50),
+	publisher varchar(30),
+	year varchar(10),
+	price int,
+	primary key(book_id)
+)
+
+insert into bookTBL(title, publisher, year, price) values ('Head First JSP','Oreilly','2009','32500');
+
+insert into bookTBL(title, publisher, year, price) values ('C Programming','Premtoce','2007',36500);
+insert into bookTBL(title, publisher, year, price) values ('Head First SQL','Oreilly','2011',38500);
+insert into bookTBL(title, publisher, year, price) values ('뇌 이야기','단 버넷','2018',18000);
+insert into bookTBL(title, publisher, year, price) values ('고양이','베르나르','2018',12800);
+insert into bookTBL(title, publisher, year, price) values ('82년생 김지영','조남주','2016',13000);

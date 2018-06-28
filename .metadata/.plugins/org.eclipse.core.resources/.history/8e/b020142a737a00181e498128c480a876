@@ -1,0 +1,545 @@
+package note;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JToolBar;
+import javax.swing.JTextField;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.print.PrinterException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+
+public class Note extends JFrame implements ActionListener {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JMenuItem mnNew, mnOpen, mnSave, mnReSave, mnPage, mnPrint, mnExit;
+	private JMenuItem mnCancel, mnCut, mnCopy, mnPaste, mnDel, mnFind, mnNextFind, mnReplace, mnGo, mnAll, mnDate;
+	private JMenuItem mnFont, mnHelp, mnInfo;
+	private JCheckBoxMenuItem mnState, mnWordWrap;
+	private JTextArea textArea;
+	private JToolBar toolBar;
+	// 열기, 저장, 다른이름으로 저장
+	private JFileChooser chooser;
+	int curLeng, newLeng;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+					Note frame = new Note();
+					frame.setVisible(true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Note()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		setTitle("메모장");
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnNewMenu = new JMenu("파일(F)");
+		menuBar.add(mnNewMenu);
+
+		mnNew = new JMenuItem("새로만들기(N)");
+		mnNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+		mnNewMenu.add(mnNew);
+
+		mnOpen = new JMenuItem("열기(O)");
+		mnOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+		mnNewMenu.add(mnOpen);
+
+		mnSave = new JMenuItem("저장(S)");
+		mnSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		mnNewMenu.add(mnSave);
+
+		mnReSave = new JMenuItem("다른 이름으로 저장(A)");
+		mnNewMenu.add(mnReSave);
+
+		JSeparator separator = new JSeparator();
+		mnNewMenu.add(separator);
+
+		mnPage = new JMenuItem("페이지 설정(U)");
+		mnNewMenu.add(mnPage);
+
+		mnPrint = new JMenuItem("인쇄(P)");
+		mnPrint.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
+		mnNewMenu.add(mnPrint);
+
+		JSeparator separator_1 = new JSeparator();
+		mnNewMenu.add(separator_1);
+
+		mnExit = new JMenuItem("끝내기(X)");
+		mnNewMenu.add(mnExit);
+
+		JMenu mnNewMenu_1 = new JMenu("편집(E)");
+		menuBar.add(mnNewMenu_1);
+
+		mnCancel = new JMenuItem("실행취소(U)");
+		mnCancel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnCancel);
+
+		JSeparator separator_2 = new JSeparator();
+		mnNewMenu_1.add(separator_2);
+
+		mnCut = new JMenuItem("잘라내기(T)");
+		mnCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnCut);
+
+		mnCopy = new JMenuItem("복사(C)");
+		mnCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnCopy);
+
+		mnPaste = new JMenuItem("붙여넣기(P)");
+		mnPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnPaste);
+
+		mnDel = new JMenuItem("삭제(L)");
+		mnDel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
+		mnNewMenu_1.add(mnDel);
+
+		JSeparator separator_3 = new JSeparator();
+		mnNewMenu_1.add(separator_3);
+
+		mnFind = new JMenuItem("찾기(F)");
+		mnFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnFind);
+
+		mnNextFind = new JMenuItem("다음찾기(N)");
+		mnNextFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+		mnNewMenu_1.add(mnNextFind);
+
+		mnReplace = new JMenuItem("바꾸기(R)");
+		mnReplace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnReplace);
+
+		mnGo = new JMenuItem("이동(G)");
+		mnGo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnGo);
+
+		JSeparator separator_4 = new JSeparator();
+		mnNewMenu_1.add(separator_4);
+
+		mnAll = new JMenuItem("모두 선택(A)");
+		mnAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+		mnNewMenu_1.add(mnAll);
+
+		mnDate = new JMenuItem("시간/날짜(D)");
+		mnDate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+		mnNewMenu_1.add(mnDate);
+
+		JMenu mnNewMenu_2 = new JMenu("서식(O)");
+		menuBar.add(mnNewMenu_2);
+
+		mnWordWrap = new JCheckBoxMenuItem("자동 줄 바꿈(W)");
+		// 프로그램 시작시부터 체크박스 체크해서 보여주기
+		mnWordWrap.setSelected(true);
+		mnNewMenu_2.add(mnWordWrap);
+
+		mnFont = new JMenuItem("글꼴(F)");
+		mnNewMenu_2.add(mnFont);
+
+		JMenu mnNewMenu_3 = new JMenu("보기(V)");
+		menuBar.add(mnNewMenu_3);
+
+		mnState = new JCheckBoxMenuItem("상태 표시줄(S)");
+		mnState.setEnabled(false);
+		mnNewMenu_3.add(mnState);
+
+		JMenu mnNewMenu_4 = new JMenu("도움말(H)");
+		menuBar.add(mnNewMenu_4);
+
+		mnHelp = new JMenuItem("도움말 보기(H)");
+		mnNewMenu_4.add(mnHelp);
+
+		mnInfo = new JMenuItem("메모장 정보(A)");
+		mnNewMenu_4.add(mnInfo);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
+		JScrollPane scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+
+		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		scrollPane.setViewportView(textArea);
+
+		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(textArea, popupMenu);
+
+		JMenuItem mntmu = new JMenuItem("실행취소(U)");
+		popupMenu.add(mntmu);
+
+		JSeparator separator_5 = new JSeparator();
+		popupMenu.add(separator_5);
+
+		JMenuItem mntmNewMenuItem_21 = new JMenuItem("잘라내기(T)");
+		popupMenu.add(mntmNewMenuItem_21);
+
+		JMenuItem mntmNewMenuItem_22 = new JMenuItem("복사(C)");
+		popupMenu.add(mntmNewMenuItem_22);
+
+		JMenuItem mntmNewMenuItem_23 = new JMenuItem("붙여넣기(P)");
+		popupMenu.add(mntmNewMenuItem_23);
+
+		JMenuItem mntmNewMenuItem_24 = new JMenuItem("삭제(D)");
+		popupMenu.add(mntmNewMenuItem_24);
+
+		toolBar = new JToolBar();
+		// 처음에 메모장 시작할 때 toolbar 안 보이도록
+		toolBar.setVisible(false);
+		contentPane.add(toolBar, BorderLayout.SOUTH);
+
+		textField = new JTextField();
+		toolBar.add(textField);
+		textField.setColumns(10);
+
+		// 파일
+		mnOpen.addActionListener(this);
+		mnOpen.addActionListener(this);
+		mnSave.addActionListener(this);
+		mnReSave.addActionListener(this);
+		mnPage.addActionListener(this);
+		mnPrint.addActionListener(this);
+		mnExit.addActionListener(this);
+
+		// 편집
+		mnCancel.addActionListener(this);
+		mnCut.addActionListener(this);
+		mnCopy.addActionListener(this);
+		mnPaste.addActionListener(this);
+		mnDel.addActionListener(this);
+		mnFind.addActionListener(this);
+		mnNextFind.addActionListener(this);
+		mnReplace.addActionListener(this);
+		mnGo.addActionListener(this);
+		mnAll.addActionListener(this);
+		mnDate.addActionListener(this);
+		// 서식
+		mnWordWrap.addActionListener(this);
+		mnFont.addActionListener(this);
+		// 보기
+		mnState.addActionListener(this);
+		// 도움말
+		mnHelp.addActionListener(this);
+		mnInfo.addActionListener(this);
+	}
+
+	private static void addPopup(Component component, final JPopupMenu popup)
+	{
+		component.addMouseListener(new MouseAdapter()
+		{
+			public void mousePressed(MouseEvent e)
+			{
+				if (e.isPopupTrigger())
+				{
+					showMenu(e);
+				}
+			}
+
+			public void mouseReleased(MouseEvent e)
+			{
+				if (e.isPopupTrigger())
+				{
+					showMenu(e);
+				}
+			}
+
+			private void showMenu(MouseEvent e)
+			{
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		JMenuItem item = (JMenuItem) e.getSource();
+
+		if (item == mnNew)
+		{
+
+		} else if (item == mnOpen)
+		{
+			open();
+		} else if (item == mnSave)
+		{
+			saveCheck();
+			save();
+		} else if (item == mnReSave)
+		{
+
+		} else if (item == mnPage)
+		{
+
+		} else if (item == mnPrint)
+		{// 인쇄
+			try
+			{
+				textArea.print();
+			} catch (PrinterException e1)
+			{
+				e1.printStackTrace();
+			}
+		} else if (item == mnExit)
+		{ // 끝내기 - 현재 창 닫기
+			// dispose();
+			System.exit(0);
+		} else if (item == mnCancel)
+		{
+
+		} else if (item == mnCut)
+		{ // 잘라내기
+			textArea.cut();
+		} else if (item == mnCopy)
+		{// 복사
+			textArea.copy();
+		} else if (item == mnPaste)
+		{// 붙여넣기
+			textArea.paste();
+		} else if (item == mnDel)
+		{// 삭제
+			textArea.replaceSelection("");
+		} else if (item == mnFind)
+		{
+
+		} else if (item == mnNextFind)
+		{
+
+		} else if (item == mnReplace)
+		{
+
+		} else if (item == mnGo)
+		{
+
+		} else if (item == mnAll)
+		{// 모두선택
+			textArea.selectAll();
+		} else if (item == mnDate)
+		{ // 시간/날짜
+			// 시간/날짜 => Date => 원하는 표시 형태로 만들기
+			// 현재 커서가 있는 곳에 시간/날짜 보여주기
+			// 오전 11:29 2018-06-26
+			SimpleDateFormat sdf = new SimpleDateFormat("a h:mm yyyy-MM-dd");
+			textArea.replaceSelection(sdf.format(new Date()));
+		} else if (item == mnWordWrap)
+		{
+			// 체크해제되면 WordWrap 기능 해제
+			// 다시 체크하면 WordWrap 기능 선택
+			if (mnWordWrap.isSelected())
+			{
+				textArea.setLineWrap(true);
+				// 상태표시줄 메뉴비활성화
+				mnState.setEnabled(false);
+			} else
+			{
+				textArea.setLineWrap(false);
+				// 상태표시줄 메뉴 활성화
+				mnState.setEnabled(true);
+			}
+		} else if (item == mnFont)
+		{
+
+		} else if (item == mnState)
+		{
+			// 상태표시줄을 체크하면 아래쪽 툴바 보이게 만들기
+			if (mnState.isSelected())
+			{
+				toolBar.setVisible(true);
+			} else
+			{
+				// 체크해제시 툴바 안 보이게 만들기
+				toolBar.setVisible(false);
+			}
+
+		} else if (item == mnHelp)
+		{
+
+		} else if (item == mnInfo)
+		{
+
+		}
+	}
+
+	// 열기 클릭시
+	public void open()
+	{
+
+		// 현재 TextArea에 내용이 있는지 확인하기
+		int curLength = textArea.getText().length();
+		String options[] = { "저장", "저장 안 함", "취소" };
+
+		// 내용이 있는 경우
+		if (curLength > 0)
+		{
+			if (!getTitle().equals("메모장"))
+			{// ① 타이틀에 파일명이 들어있는 경우
+
+			} else
+			{// ② 타이틀에 파일명이 없는 경우
+				int retVal = JOptionPane.showOptionDialog(this, "변경 내용을 제목 없음에 저장하시겠습니까?", "메모장",
+						JOptionPane.CLOSED_OPTION, -1, null, options, options[0]);
+				// option0: 저장
+				if (retVal == 0)
+				{
+
+				}
+
+				// option1: 취소버튼
+				else if (retVal == 1)
+				{
+					fileOpen();
+					return;
+				}
+
+				// option2: 저장 안 함
+				if (retVal == 2)
+					return;
+
+			}
+		}
+		// 내용이 없는 경우
+		else
+		{
+			fileOpen();
+			return;
+		}
+	}
+
+	// JFileChooser 설정
+	private JFileChooser setChooser()
+	{
+		chooser = new JFileChooser();
+		// 기존 필터 세팅 지우기(원하는 순서대로 필터 추가하기 위해서)
+		chooser.setAcceptAllFileFilterUsed(false);
+		// 필터 추가하기
+		chooser.addChoosableFileFilter(new FileNameExtensionFilter("텍스트 파일(*.txt)", "txt"));
+		// 모든파일 필터 추가
+		chooser.addChoosableFileFilter(chooser.getAcceptAllFileFilter());
+		return chooser;
+	}
+
+	private void fileOpen()
+	{
+		// 열기 버튼을 클릭시
+		// 사용자가 선택한 파일 가져온 후 내용을 읽어서
+		// textArea 보여주기
+
+		// 파일 열기 창 열기
+		chooser = setChooser();
+		int retVal = chooser.showOpenDialog(this);
+		if (retVal == JFileChooser.APPROVE_OPTION)
+		{
+			File file = chooser.getSelectedFile();
+
+			// 속도를 위해 Buffer사용함
+			try (BufferedReader reader = new BufferedReader(new FileReader(file.getPath())))
+			{
+				// 기존 textArea 내용 지우고 보여주기
+				String msg;
+				while ((msg = reader.readLine()) != null) // readLine -> 줄 단위로 읽어온다. 따라서 그 줄을 맞춰주기 위하여 \n을 더해준다.
+				{
+					textArea.append(msg + "\n"); // append : 첨부하다.
+				}
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		} else
+		{// 취소 버튼 클릭 시 파일 열기 창 닫기
+			return;
+		}
+
+		return;
+
+	}
+
+	// 저장 버튼 클릭 시
+	private void save()
+	{
+		// 1. 파일 -> 저장
+		// 1) 기존 파일을 불러온 후 파일 수정 후 파일->저장
+
+		// 2) 새 파일을 저장하는 경우 -> 파일명이 제목없음이다.
+
+		// 2. 파일 -> 열기
+		// 사용자가 작성한 내용이 있고 변경 내용을 저장하겠다는 옵션을 선택한 경우
+		// 2) 기존파일을 불러온 후 파일 수정 후 열기버튼을 누른 경우 수정된 부분을 저장할 것인지 먼저 물어봐야 함
+		
+		// 다름이름으로 저장 창 ㄸ<
+	}
+
+	private void saveCheck()	// 저장을 하기 전 기존 파일인지 새 파일인지 타이틀로 구별해준다.
+	{
+		int retVal = 0;
+		
+		// 새 파일
+		if(getTitle().equals("메모장"))
+		{
+			retVal = chooser.showSaveDialog(this);
+					//chooser.APPROVE_OPTION();
+			if(retVal == chooser.APPROVE_OPTION)	// 파일 저장 => 다른 이름으로 저장윈도우 띄우기
+			{
+			}
+			else {	// 파일 열기 -> 저장하겠냐는 옵션 창 먼저 띄운 후 사용자의 선택에 따라 다른이름저장 or 열기창 or 취소가 결정된다.
+			
+			}
+		}
+		// 기존 파일
+		else
+		{
+			
+		}
+	}
+}

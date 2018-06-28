@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;CLS.tv&apos; to &apos;Tv&apos;&#x0D;&#x0A;- Original project: &apos;01_exam&apos;&#x0D;&#x0A;- Original element: &apos;CLS.tv&apos;&#x0D;&#x0A;- Renamed element: &apos;CLS.Tv&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;tv&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;CLS{tv.java[tv" matchStrategy="1" name="Tv" qualified="false" references="true" similarDeclarations="false" stamp="1525054523402" textual="false" version="1.0"/>
+</session>
